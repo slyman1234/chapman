@@ -1,0 +1,15 @@
+# Ignore build output
+android/app/build/**
+ios/build/**
+
+# Ignore temporary files
+node_modules/**
+.cache/**
+.expo/**
+
+# Ignore assets
+assets/**
+
+
+# Ignore screens
+screens/**
