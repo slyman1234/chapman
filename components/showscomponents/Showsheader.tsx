@@ -1,14 +1,18 @@
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import React from "react";
-import { SimpleLineIcons, Feather } from "@expo/vector-icons";
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import React from 'react';
+import {SimpleLineIcons, Feather} from '@expo/vector-icons';
+import {NavigationProp, ParamListBase} from '@react-navigation/native';
 
-const Showsheader = ({ navigation }) => {
+type MyScreenProps = {
+  navigation: NavigationProp<ParamListBase>;
+};
+const Showsheader = ({navigation}: MyScreenProps) => {
   return (
     <View style={styles.showsheader}>
       <View>
         <TouchableOpacity
           style={styles.backbutton}
-          onPress={() => navigation.navigate("HomeScreens")}
+          onPress={() => navigation.navigate('HomeScreens')}
           accessible={true}
           accessibilityLabel="Go back"
           accessibilityHint="Click to go back to home screen"
@@ -31,25 +35,25 @@ export default Showsheader;
 
 const styles = StyleSheet.create({
   showsheader: {
-    flexDirection: "row",
-    width: "100%",
-    justifyContent: "space-between",
+    flexDirection: 'row',
+    width: '100%',
+    justifyContent: 'space-between',
     paddingHorizontal: 20,
     paddingTop: 30,
   },
   back: {
-    color: "#fff",
+    color: '#fff',
     fontSize: 16,
-    fontWeight: "600",
-    top:2,
-    marginLeft:4
+    fontWeight: '600',
+    top: 2,
+    marginLeft: 4,
   },
   backbutton: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    width: "34%",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '34%',
   },
   studentshow: {
-    flexDirection: "row",
+    flexDirection: 'row',
   },
 });

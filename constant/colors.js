@@ -1,5 +1,3 @@
-
-
 const colortype = {
   black: "#000000",
   green: "#81BD61",
@@ -7,7 +5,6 @@ const colortype = {
   orange:"#D74E47",
   blackshadow:"#101010",
   backgroundrgb:"rgba(64, 63, 63, 0.3)"
-
 };
 
 export default colortype;

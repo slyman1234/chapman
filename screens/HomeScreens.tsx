@@ -1,17 +1,20 @@
 import React from 'react';
-import { StyleSheet, SafeAreaView } from 'react-native';
+import {StyleSheet, SafeAreaView} from 'react-native';
+
 import Headercomponent from '../components/homecomponents/Headercomponent';
 import Menubar from '../components/Menubar';
 import Streamscomponent from '../components/homecomponents/Streamscomponent';
 import colortype from '../constant/colors';
-import { ScrollView } from 'react-native-gesture-handler';
+import {ScrollView} from 'react-native-gesture-handler';
+import {NavigationProp, ParamListBase} from '@react-navigation/native';
+type MyScreenProps = {
+  navigation: NavigationProp<ParamListBase>;
+};
 
-
-const HomeScreens = ({navigation}) => {
+const HomeScreens = ({navigation}: MyScreenProps) => {
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView
-        contentContainerStyle={styles.stylscroll}>
+      <ScrollView contentContainerStyle={styles.stylscroll}>
         <Menubar navigation={navigation} />
         <Headercomponent />
         <Streamscomponent navigation={navigation} />
@@ -22,7 +25,7 @@ const HomeScreens = ({navigation}) => {
 
 export default HomeScreens;
 const styles = StyleSheet.create({
-  stylscroll:{
+  stylscroll: {
     alignItems: 'center',
   },
   container: {

@@ -4,58 +4,82 @@ import {
   View,
   Image,
   TouchableHighlight,
+  ActivityIndicator,
+  SafeAreaView,
 } from 'react-native';
-import React, { useRef, useState } from 'react';
-import { Feather } from '@expo/vector-icons';
+import React, {useState, useEffect} from 'react';
+import {Feather} from '@expo/vector-icons';
 import colortype from '../../../constant/colors';
 import streamsurl from '../../../constant/hls';
-import Video from 'react-native-video';
+import TrackPlayer, {usePlaybackState, State} from 'react-native-track-player';
+import {setupPlayer} from '../Player';
+import {addTracks} from '../Tracks';
 
 const Studentuniondetails = () => {
+  const playerState = usePlaybackState();
 
-  const [isPlaying, setIsPlaying] = React.useState(false);  
-    const [isMuted, setIsMuted] = React.useState(false);  
+  const [isPlayerReady, setIsPlayerReady] = useState(false);
 
-    console.log(isPlaying);
+  useEffect(() => {
+    if (!isPlayerReady) {
+      TrackPlayer.reset();
+      setup();
+    } else {
+      console.log('false');
+    }
+    async function setup() {
+      let isSetup = await setupPlayer();
+
+      const queue = await TrackPlayer.getQueue();
+      if (isSetup && queue.length <= 0) {
+        await addTracks('stream4', streamsurl.studentunion, 'hls');
+      }
+
+      setIsPlayerReady(isSetup);
+    }
+  }, [isPlayerReady]);
+
+  if (!isPlayerReady) {
+    return (
+      <SafeAreaView style={styles.container}>
+        <ActivityIndicator size="large" color="#bbb" />
+      </SafeAreaView>
+    );
+  }
+
+  async function handlePlayPress() {
+    if ((await TrackPlayer.getState()) === State.Playing) {
+      TrackPlayer.pause();
+    } else {
+      TrackPlayer.play();
+    }
+  }
 
   return (
     <View style={styles.container}>
-     <View style={styles.titledetails} accessible={true}>
-      <Text style={styles.showname}>Student union Stream</Text>
-      <Text style={styles.showsubtitle}>Stream 3 </Text>
-    </View>
+      <View style={styles.titledetails} accessible={true}>
+        <Text style={styles.showname}>Student union Stream</Text>
+        <Text style={styles.showsubtitle}>Stream 3 </Text>
+      </View>
 
-    <Image
-      source={require("../../../assets/musicbackground.png")}
-      style={styles.musicimage}
-    />
-    <Video
-      source={{
-        uri: streamsurl.studentunion,
-        type: 'm3u8',
-      }}
-      paused={!isPlaying}  
-      repeat
-      playInBackground={true}
-      controls={true}  
-      playWhenInactive={true}
-      ignoreSilentSwitch="ignore"
+      <Image
+        source={require('../../../assets/musicbackground.png')}
+        style={styles.musicimage}
+      />
 
-    />
+      {playerState === State.Playing ? (
+        <TouchableHighlight onPress={handlePlayPress} style={styles.playericon}>
+          {/* Your stop button component */}
+          <Feather name="pause" style={styles.iconplay} />
+        </TouchableHighlight>
+      ) : (
+        <TouchableHighlight onPress={handlePlayPress} style={styles.playericon}>
+          {/* Your play button component */}
 
-    {isPlaying ? (
-      <TouchableHighlight   onPress={() => setIsPlaying(p => !p)}   style={styles.playericon}>
-        {/* Your stop button component */}
-        <Feather name="pause" style={styles.iconplay} />
-      </TouchableHighlight>
-    ) : (
-      <TouchableHighlight    onPress={() => setIsPlaying(p => !p)}   style={styles.playericon}>
-        {/* Your play button component */}
-
-        <Feather name="play" style={styles.iconplay}/>
-      </TouchableHighlight>
-    )}
-    <Text style={styles.live}>Live</Text>
+          <Feather name="play" style={styles.iconplay} />
+        </TouchableHighlight>
+      )}
+      <Text style={styles.live}>Live</Text>
     </View>
   );
 };

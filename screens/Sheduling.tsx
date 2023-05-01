@@ -1,11 +1,15 @@
-import { StyleSheet, View } from "react-native";
-import React, { useEffect, useState } from "react";
-import Headersrusable from "../components/reusablecomponents/Headersrusable";
-import Shedulesdetails from "../components/shedulecomponents/Shedulesdetails";
-import colortype from "../constant/colors";
-import { getItems } from "../api/Apis";
+import {StyleSheet, View} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {NavigationProp, ParamListBase} from '@react-navigation/native';
+import Headersrusable from '../components/reusablecomponents/Headersrusable';
+import Shedulesdetails from '../components/shedulecomponents/Shedulesdetails';
+import colortype from '../constant/colors';
+import {getItems} from '../api/Apis';
 
-const Sheduling = ({ navigation }) => {
+type MyScreenProps = {
+  navigation: NavigationProp<ParamListBase>;
+};
+const Sheduling = ({navigation}: MyScreenProps) => {
   interface ApiResponse {
     length: number;
     items: String;
@@ -16,13 +20,13 @@ const Sheduling = ({ navigation }) => {
 
   useEffect(() => {
     getItems()
-      .then((items) => {
+      .then(items => {
         // Do something with the items data
 
         setData(items.items);
         setLoading(false);
       })
-      .catch((error) => {
+      .catch(error => {
         // Handle the error
         console.error(error);
         setLoading(false);
@@ -43,6 +47,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colortype.black,
-    width: "100%",
+    width: '100%',
   },
 });
