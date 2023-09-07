@@ -4,18 +4,21 @@ import {
   View,
   FlatList,
   ActivityIndicator,
-} from "react-native";
-import React, { useEffect, useState } from "react";
-import { useRoute } from "@react-navigation/native";
-import colortype from "../../constant/colors";
-import Renderdata from "./Renderdata";
-import { getPlaylist, getsingleItems } from "../../api/Apis";
+} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {useRoute} from '@react-navigation/native';
+import colortype from '../../constant/colors';
+import Renderdata from './Renderdata';
+import {getPlaylist, getsingleItems} from '../../api/Apis';
+import moment from 'moment';
+import {ScrollView} from 'react-native-gesture-handler';
 
 interface RouteParams {
   id: number;
   date: String;
   time: String;
   title: String;
+  description: String;
   duration: any;
   normalstartdate: any;
   normalenddate: any;
@@ -24,62 +27,35 @@ interface RouteParams {
 const Singlesheduledetails = () => {
   const route = useRoute();
 
-  const { id, date, time, title, normalstartdate, normalenddate } =
+  const {date, title, description, normalstartdate, normalenddate} =
     route.params as RouteParams;
 
-  const [data, setData] = useState();
-
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    getsingleItems(id)
-      .then((items) => {
-        // Do something with the items data
-        setData(items.items);
-
-        setLoading(false);
-      })
-      .catch((error) => {
-        // Handle the error
-        console.error(error);
-        setLoading(false);
-      });
-  }, []);
+  const dateString = date;
+  const datenews = new Date(dateString);
+  const datenew = {weekday: 'long'};
+  const dayName = datenews.toLocaleDateString('en-US', datenew).split(',')[0];
 
   return (
     <View style={styles.container}>
-      <View accessible={true} style={styles.scheduheader}>
-        <Text style={styles.text1}>{date}</Text>
-        <Text style={styles.text2}>{time}</Text>
-        <Text style={styles.text3}>{title}</Text>
-      </View>
-
-      <View
-        style={{
-          alignItems: loading === true ? "center" : null,
-          justifyContent: loading === true ? "center" : null,
-          alignContent: loading === true ? "center" : null,
-          height: loading === true ? 700 : null,
-          width: loading === true ? "100%" : null,
+      <ScrollView
+        contentContainerStyle={{
+          flexGrow: 1,
+          paddingBottom: 200,
         }}
       >
-        {loading === true ? (
-          <ActivityIndicator size="large" color={colortype.green} />
-        ) : (
-          <FlatList
-            data={data}
-            numColumns={1}
-            renderItem={({ item }) => (
-              <Renderdata
-                renitem={item}
-                normalstartdate={normalstartdate}
-                normalenddate={normalenddate}
-              />
-            )}
-            keyExtractor={(item) => item.id}
-          />
-        )}
-      </View>
+        <View accessible={true} style={styles.scheduheader}>
+          <Text style={styles.text1}>
+            {dayName} {moment(normalstartdate).format('h')} -{' '}
+            {moment(normalenddate).format('h')}{' '}
+            {moment(normalenddate).format('A')}
+          </Text>
+          <Text style={styles.text3}> </Text>
+          <Text style={styles.text2}>{title}</Text>
+          <Text style={styles.text4}>
+            {description.replace(/<[^>]+>/g, '')}
+          </Text>
+        </View>
+      </ScrollView>
     </View>
   );
 };
@@ -88,80 +64,89 @@ export default Singlesheduledetails;
 
 const styles = StyleSheet.create({
   container: {
-    width: "100%",
-    alignItems: "center",
+    width: '100%',
+    alignItems: 'center',
   },
   text1: {
-    color: "#fff",
+    color: '#fff',
     fontSize: 24,
-    fontWeight: "700",
+    fontWeight: '700',
     paddingVertical: 10,
   },
   text2: {
-    color: "#fff",
-    fontSize: 16,
-    fontWeight: "400",
+    color: '#85D245',
+    fontSize: 30,
+    fontWeight: '800',
     paddingVertical: 7,
+    paddingBottom: 30,
   },
   text3: {
-    color: "#85D245",
+    color: '#fff',
     fontSize: 16,
-    fontWeight: "500",
+    fontWeight: '500',
+  },
+  text4: {
+    color: '#fff',
+    fontSize: 20,
+    fontWeight: '600',
+    textAlign: 'justify',
   },
   sheduleopen: {
-    flexDirection: "row",
+    flexDirection: 'row',
     paddingVertical: 15,
-    width: "100%",
-    justifyContent: "space-between",
+    width: '100%',
+    justifyContent: 'space-between',
     paddingHorizontal: 20,
     top: 40,
   },
   timeday: {
-    color: "#fff",
+    color: '#fff',
     fontSize: 15,
-    fontWeight: "400",
+    fontWeight: '400',
   },
   amorpm: {
-    color: "#fff",
+    color: '#fff',
     fontSize: 15,
-    fontWeight: "400",
+    fontWeight: '400',
     paddingHorizontal: 5,
     paddingVertical: 3,
   },
 
   showtitle: {
-    color: "#fff",
+    color: '#fff',
     fontSize: 16,
-    fontWeight: "400",
+    fontWeight: '400',
   },
   showdj: {
     fontSize: 16,
-    fontWeight: "400",
+    fontWeight: '400',
     paddingVertical: 3,
-    color: "#81BD61",
+    color: '#81BD61',
   },
   showdetails: {
     left: 2,
-    width: "70%",
+    width: '70%',
     top: 0,
-    backgroundColor: "rgba(64, 63, 63, 0.3)",
+    backgroundColor: 'rgba(64, 63, 63, 0.3)',
     paddingBottom: 15,
     paddingTop: 10,
-    alignItems: "flex-start",
+    alignItems: 'flex-start',
     paddingLeft: 40,
     borderTopRightRadius: 16,
     borderBottomRightRadius: 16,
   },
   time: {
-    backgroundColor: "rgba(64, 63, 63, 0.3)",
-    width: "30%",
-    alignItems: "center",
+    backgroundColor: 'rgba(64, 63, 63, 0.3)',
+    width: '30%',
+    alignItems: 'center',
     paddingBottom: 5,
     paddingTop: 10,
     borderTopLeftRadius: 10,
     borderBottomLeftRadius: 10,
   },
   scheduheader: {
-    alignItems: "center",
+    alignItems: 'center',
+    paddingHorizontal: 20,
+    paddingVertical: 20,
   },
 });

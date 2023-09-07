@@ -1,4 +1,4 @@
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, View,Linking} from 'react-native';
 import React from 'react';
 import {SimpleLineIcons, Feather} from '@expo/vector-icons';
 import {NavigationProp, ParamListBase} from '@react-navigation/native';
@@ -7,6 +7,21 @@ type MyScreenProps = {
   navigation: NavigationProp<ParamListBase>;
 };
 const Showsheader = ({navigation}: MyScreenProps) => {
+
+  const handlePhone = async () => {
+    try {
+      const url = 'tel:+17145166187';
+      const supported = await Linking.canOpenURL(url);
+
+      if (supported) {
+        await Linking.openURL(url);
+      } else {
+        console.log(`Don't know how to open URL: ${url}`);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <View style={styles.showsheader}>
       <View>
@@ -24,9 +39,9 @@ const Showsheader = ({navigation}: MyScreenProps) => {
         </TouchableOpacity>
       </View>
 
-      <View>
+      <TouchableOpacity onPress={handlePhone}>
         <Feather name="phone-call" size={24} color="#fff" />
-      </View>
+      </TouchableOpacity>
     </View>
   );
 };

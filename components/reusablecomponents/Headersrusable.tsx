@@ -1,6 +1,6 @@
-import { StyleSheet, Text, Image, View } from "react-native";
-import React from "react";
-import images from "../../constant/image";
+import {StyleSheet, Text, Image, View} from 'react-native';
+import React from 'react';
+import images from '../../constant/image';
 
 type Headerprops = {
   title: String;
@@ -23,10 +23,10 @@ export default Headersrusable;
 
 const styles = StyleSheet.create({
   headercontainer: {
-    flexDirection: "row",
-    width: "80%",
+    flexDirection: 'row',
+    width: '80%',
     paddingTop: 70,
-    justifyContent: "flex-start",
+    justifyContent: 'flex-start',
     paddingLeft: 20,
   },
 
@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
   },
   scheduletext: {
     fontSize: 24,
-    color: "#fff",
-    fontWeight: "700",
+    color: '#fff',
+    fontWeight: '700',
   },
 });

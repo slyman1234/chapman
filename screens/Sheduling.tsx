@@ -1,10 +1,10 @@
 import {StyleSheet, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {NavigationProp, ParamListBase} from '@react-navigation/native';
-import Headersrusable from '../components/reusablecomponents/Headersrusable';
 import Shedulesdetails from '../components/shedulecomponents/Shedulesdetails';
 import colortype from '../constant/colors';
 import {getItems} from '../api/Apis';
+import {ScrollView} from 'react-native-gesture-handler';
 
 type MyScreenProps = {
   navigation: NavigationProp<ParamListBase>;
@@ -35,8 +35,13 @@ const Sheduling = ({navigation}: MyScreenProps) => {
 
   return (
     <View style={styles.container}>
-      <Headersrusable title="Shedule" />
-      <Shedulesdetails navigation={navigation} data={data} loading={loading} />
+      <ScrollView contentContainerStyle={styles.con}>
+        <Shedulesdetails
+          navigation={navigation}
+          data={data}
+          loading={loading}
+        />
+      </ScrollView>
     </View>
   );
 };
@@ -48,5 +53,8 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colortype.black,
     width: '100%',
+    paddingHorizontal: 20,
+    paddingVertical: 10,
   },
+  con: {marginTop: -50},
 });

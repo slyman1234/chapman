@@ -7,11 +7,16 @@ import Streamscomponent from '../components/homecomponents/Streamscomponent';
 import colortype from '../constant/colors';
 import {ScrollView} from 'react-native-gesture-handler';
 import {NavigationProp, ParamListBase} from '@react-navigation/native';
+
+
 type MyScreenProps = {
   navigation: NavigationProp<ParamListBase>;
 };
 
 const HomeScreens = ({navigation}: MyScreenProps) => {
+
+
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.stylscroll}>
@@ -32,5 +37,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colortype.black,
     alignItems: 'center',
+    width: '100%',
   },
 });

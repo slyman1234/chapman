@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
-import moment from "moment";
-import { View, Text, StyleSheet } from "react-native";
+import React from 'react';
+import moment from 'moment';
+import {View, Text, StyleSheet} from 'react-native';
 
 type Renderdataprops = {
   renitem: any;
@@ -9,18 +9,16 @@ type Renderdataprops = {
 };
 
 const Renderdata = (props: Renderdataprops) => {
-
-
-console.log(props.renitem)
+  console.log(props.renitem);
   return (
     <View style={styles.sheduleopen}>
       <View style={styles.time} accessible={true}>
         <Text style={styles.timeday}>
-          {moment(props.renitem.start).format("h")} -{" "}
-          {moment(props.renitem.end).format("h")}
+          {moment(props.renitem.start).format('h')} -{' '}
+          {moment(props.renitem.end).format('h')}
         </Text>
         <Text style={styles.amorpm}>
-          {moment(props.renitem.end).format("A")}
+          {moment(props.renitem.end).format('A')}
         </Text>
       </View>
 
@@ -36,53 +34,53 @@ export default Renderdata;
 
 const styles = StyleSheet.create({
   sheduleopen: {
-    flexDirection: "row",
+    flexDirection: 'row',
     paddingVertical: 15,
-    width: "100%",
-    justifyContent: "space-between",
+    width: '100%',
+    justifyContent: 'space-between',
     paddingHorizontal: 20,
     top: 40,
   },
   timeday: {
-    color: "#fff",
+    color: '#fff',
     fontSize: 15,
-    fontWeight: "400",
+    fontWeight: '400',
   },
   amorpm: {
-    color: "#fff",
+    color: '#fff',
     fontSize: 15,
-    fontWeight: "400",
+    fontWeight: '400',
     paddingHorizontal: 5,
     paddingVertical: 3,
   },
 
   showtitle: {
-    color: "#fff",
+    color: '#fff',
     fontSize: 16,
-    fontWeight: "400",
+    fontWeight: '400',
   },
   showdj: {
     fontSize: 16,
-    fontWeight: "400",
+    fontWeight: '400',
     paddingVertical: 3,
-    color: "#81BD61",
+    color: '#81BD61',
   },
   showdetails: {
     left: 2,
-    width: "70%",
+    width: '70%',
     top: 0,
-    backgroundColor: "rgba(64, 63, 63, 0.3)",
+    backgroundColor: 'rgba(64, 63, 63, 0.3)',
     paddingBottom: 15,
     paddingTop: 10,
-    alignItems: "flex-start",
+    alignItems: 'flex-start',
     paddingLeft: 40,
     borderTopRightRadius: 16,
     borderBottomRightRadius: 16,
   },
   time: {
-    backgroundColor: "rgba(64, 63, 63, 0.3)",
-    width: "30%",
-    alignItems: "center",
+    backgroundColor: 'rgba(64, 63, 63, 0.3)',
+    width: '30%',
+    alignItems: 'center',
     paddingBottom: 5,
     paddingTop: 10,
     borderTopLeftRadius: 10,

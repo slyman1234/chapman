@@ -4,40 +4,107 @@ import {
   View,
   Image,
   TouchableHighlight,
-  SafeAreaView,
   ActivityIndicator,
+  SafeAreaView,
+  AppState,
 } from 'react-native';
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {Feather} from '@expo/vector-icons';
 import colortype from '../../../constant/colors';
-import TrackPlayer, {usePlaybackState, State} from 'react-native-track-player';
-import {addTracks} from '../Tracks';
 import streamsurl from '../../../constant/hls';
+import TrackPlayer, {
+  usePlaybackState,
+  State,
+  Event,
+  useTrackPlayerEvents,
+} from 'react-native-track-player';
 import {setupPlayer} from '../Player';
+import {addTracks} from '../Tracks';
+import LottieView from 'lottie-react-native';
+import {Assets} from '../../../api/Apis';
+import Artworkurl from '../../../assets/radiohead.png';
 
 const Studentshowdetail = () => {
   const playerState = usePlaybackState();
 
-  const [isPlayerReady, setIsPlayerReady] = useState(false);
+  const [appState, setAppState] = useState(AppState.currentState);
+  const lottieAnimationRef = useRef(null);
 
   useEffect(() => {
-    if (!isPlayerReady) {
-      TrackPlayer.reset();
-      setup();
-    } else {
-      console.log('false');
-    }
-    async function setup() {
+    const handleAppStateChange = nextAppState => {
+      if (
+        appState.match(/inactive|background/) &&
+        nextAppState === 'active' &&
+        lottieAnimationRef.current
+      ) {
+        lottieAnimationRef.current.play();
+      }
+      setAppState(nextAppState);
+    };
+
+    const appStateListener = AppState.addEventListener(
+      'change',
+      handleAppStateChange,
+    );
+
+    return () => {
+      appStateListener.remove();
+    };
+  }, [appState]);
+
+  const [isPlayerReady, setIsPlayerReady] = useState<Boolean>(false);
+
+  const tracktitle = 'Student Stream';
+
+  useEffect(() => {
+    setup();
+  }, []);
+
+  async function getCurrentTrack() {
+    const currentTrack1: any = await TrackPlayer.getCurrentTrack();
+
+    console.log(currentTrack1);
+    await TrackPlayer.updateMetadataForTrack(currentTrack1, {
+      title: tracktitle,
+      artwork: Artworkurl,
+    });
+    console.log(Artworkurl);
+  }
+
+  const setup = async () => {
+    try {
       let isSetup = await setupPlayer();
 
-      const queue = await TrackPlayer.getQueue();
-      if (isSetup && queue.length <= 0) {
-        await addTracks('hlsstream', streamsurl.student, 'hls');
+      const currentTrack = await TrackPlayer.getCurrentTrack();
+
+      if (currentTrack !== null) {
+        const trackData = await TrackPlayer.getTrack(currentTrack);
+
+        if (
+          isSetup &&
+          (!trackData || trackData.url !== streamsurl.studentunion)
+        ) {
+          await TrackPlayer.reset();
+        } else {
+          getCurrentTrack();
+        }
+      } else {
+        // Handle the case when the current track is null
+        // Add a new track with the given title and URL
+        await addTracks('Student Stream', streamsurl.student, 'hls');
       }
 
+      const queue = await TrackPlayer.getQueue();
+
+      if (isSetup && queue.length <= 0) {
+        await addTracks('Student Stream', streamsurl.student, 'hls');
+        getCurrentTrack();
+      }
       setIsPlayerReady(isSetup);
+    } catch (error) {
+      console.log(error);
     }
-  }, [isPlayerReady]);
+  };
 
   if (!isPlayerReady) {
     return (
@@ -52,25 +119,29 @@ const Studentshowdetail = () => {
       TrackPlayer.pause();
     } else {
       TrackPlayer.play();
+      getCurrentTrack();
     }
   }
 
   return (
     <View style={styles.container}>
       <View style={styles.titledetails} accessible={true}>
-        <Text style={styles.showname}>Students Stream</Text>
-        <Text style={styles.showsubtitle}>Stream 1 </Text>
+        <Text style={styles.showname}>Student Stream</Text>
+        <Text style={styles.showsubtitle}>Stream 1</Text>
       </View>
 
-      <Image
-        source={require('../../../assets/musicbackground.png')}
+      <LottieView
+        loop
+        autoPlay
+        source={Assets.lottieFiles.planePath}
         style={styles.musicimage}
+        ref={lottieAnimationRef}
       />
 
       {playerState === State.Playing ? (
         <TouchableHighlight onPress={handlePlayPress} style={styles.playericon}>
           {/* Your stop button component */}
-          <Feather name="pause" style={styles.iconplay} />
+          <Feather name="pause" style={styles.iconpause} />
         </TouchableHighlight>
       ) : (
         <TouchableHighlight onPress={handlePlayPress} style={styles.playericon}>
@@ -173,6 +244,11 @@ const styles = StyleSheet.create({
   iconplay: {
     alignSelf: 'center',
     marginLeft: 5,
+    fontSize: 30.5,
+    color: '#fff',
+  },
+  iconpause: {
+    alignSelf: 'center',
     fontSize: 30.5,
     color: '#fff',
   },

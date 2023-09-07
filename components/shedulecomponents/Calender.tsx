@@ -1,6 +1,8 @@
-import { View, StyleSheet } from "react-native";
-import CalendarStrip from "react-native-calendar-strip";
-import { AntDesign } from "@expo/vector-icons";
+import {View, StyleSheet} from 'react-native';
+import CalendarStrip from 'react-native-calendar-strip';
+import {AntDesign} from '@expo/vector-icons';
+import moment from 'moment';
+import React, {useState} from 'react';
 
 type Calenderprops = {
   selectedDate: Date;
@@ -8,6 +10,7 @@ type Calenderprops = {
 };
 
 const Calendar = (props: Calenderprops) => {
+  const [headerText, setHeaderText] = useState('');
   return (
     <View style={styles.calendarContainer}>
       <CalendarStrip
@@ -31,8 +34,14 @@ const Calendar = (props: Calenderprops) => {
         dateNameStyle={styles.dayname}
         iconContainer={styles.iconcontainer}
         highlightDateContainerStyle={styles.higlightdate}
-        highlightDateNameStyle={ styles.highlightdatename}
+        highlightDateNameStyle={styles.highlightdatename}
         highlightDateNumberStyle={styles.higlightdatenumber}
+        updateWeek={true}
+        onWeekChanged={(start, end) => {
+          const month = moment(start).format('MMMM YYYY');
+          setHeaderText(month);
+        }}
+        headerText={headerText}
       />
     </View>
   );
@@ -51,50 +60,49 @@ const styles = StyleSheet.create({
     width: 20,
     top: 10,
   },
-  higlightdate:{
-    backgroundColor: "rgba(73, 182, 000, 0.3)"
+  higlightdate: {
+    backgroundColor: 'rgba(73, 182, 000, 0.3)',
   },
   rightselector: {
     height: 40,
     width: 20,
     top: 10,
   },
-  iconcontainer:{
-    top: -85
+  iconcontainer: {
+    top: -85,
   },
   daycontainer: {
     borderRadius: 6,
-    borderColor: "white",
+    borderColor: 'white',
 
     borderWidth: 0.5,
   },
   daynumber: {
-    color: "white",
+    color: 'white',
   },
   titletext: {
     fontSize: 24,
-    fontWeight: "600",
-    color: "#fff",
+    fontWeight: '600',
+    color: '#fff',
   },
 
   showdj: {
-    color: "#C2C1C1",
+    color: '#C2C1C1',
     fontSize: 16,
-    fontWeight: "400",
+    fontWeight: '400',
     paddingVertical: 3,
   },
 
   calendarContainer: {
     padding: 10,
   },
-  dayname:{
-    color: "white"
+  dayname: {
+    color: 'white',
   },
-  highlightdatename:{
-    color: "#fff"
+  highlightdatename: {
+    color: '#fff',
   },
-  higlightdatenumber:{
-    color: "#fff"
-
-  }
+  higlightdatenumber: {
+    color: '#fff',
+  },
 });

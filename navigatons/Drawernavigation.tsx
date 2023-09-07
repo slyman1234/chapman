@@ -1,16 +1,18 @@
-import React, { FC } from "react";
-import { useWindowDimensions } from "react-native";
+import React, {FC} from 'react';
+import {useWindowDimensions} from 'react-native';
 import {
   createDrawerNavigator,
   DrawerContentScrollView,
-} from "@react-navigation/drawer";
+} from '@react-navigation/drawer';
 
-import Bottomnavigation from "./Bottomnavigation";
-import Customdrawercomponent from "../components/homecomponents/Customdrawercomponent";
+import Bottomnavigation from './Bottomnavigation';
+import Customdrawercomponent from '../components/homecomponents/Customdrawercomponent';
 
 const Drawer = createDrawerNavigator();
 
-const CustomDrawerContent = ({ navigation }) => {
+
+
+const CustomDrawerContent = ({navigation}) => {
   return (
     <DrawerContentScrollView>
       <Customdrawercomponent navigation={navigation} />
@@ -21,20 +23,22 @@ const CustomDrawerContent = ({ navigation }) => {
 const Drawernavigation: FC = () => {
   const dimensions = useWindowDimensions();
 
+  const isLandscape = dimensions.width > dimensions.height;
+
   return (
     <Drawer.Navigator
       screenOptions={{
-        drawerPosition: "right",
+        drawerPosition: 'right',
         headerShown: false,
-        drawerType: dimensions.width >= 768 ? "permanent" : "front",
+        drawerType: isLandscape ? 'front' : 'front',
         drawerStyle: {
-          backgroundColor: "rgba(00, 00, 00, 0.7)",
+          backgroundColor: 'rgba(00, 00, 00, 0.7)',
           marginTop: 50,
           paddingBottom: 40,
           width: dimensions.width,
         },
       }}
-      drawerContent={(props) => <CustomDrawerContent {...props} />}
+      drawerContent={props => <CustomDrawerContent {...props} />}
     >
       <Drawer.Screen name="f">
         {(props: any) => <Bottomnavigation {...props} />}

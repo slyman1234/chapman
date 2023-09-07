@@ -24,3 +24,9 @@ export const getPlaylist = async () => {
     response.json(),
   );
 };
+
+export const Assets = {
+  lottieFiles: {
+    planePath: require('../components/showscomponents/radiohead.json'),
+  },
+};

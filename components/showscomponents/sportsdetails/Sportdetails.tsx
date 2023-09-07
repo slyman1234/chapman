@@ -6,38 +6,102 @@ import {
   TouchableHighlight,
   ActivityIndicator,
   SafeAreaView,
+  AppState,
 } from 'react-native';
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {Feather} from '@expo/vector-icons';
 import colortype from '../../../constant/colors';
 import streamsurl from '../../../constant/hls';
-import TrackPlayer, {usePlaybackState, State} from 'react-native-track-player';
+import TrackPlayer, {
+  usePlaybackState,
+  State,
+  useTrackPlayerEvents,
+} from 'react-native-track-player';
 import {setupPlayer} from '../Player';
 import {addTracks} from '../Tracks';
-
+import LottieView from 'lottie-react-native';
+import {Assets} from '../../../api/Apis';
+import Artworkurl from '../../../assets/radiohead.png';
 const Sportdetails = () => {
   const playerState = usePlaybackState();
 
-  const [isPlayerReady, setIsPlayerReady] = useState(false);
+  const [appState, setAppState] = useState(AppState.currentState);
+  const lottieAnimationRef = useRef(null);
+  TrackPlayer.addEventListener('playback-metadata-received', async e => {
+
+   console.log(e);
+  
+});
 
   useEffect(() => {
-    if (!isPlayerReady) {
-      TrackPlayer.reset();
-      setup();
-    } else {
-      console.log('false');
-    }
-    async function setup() {
+    const handleAppStateChange = nextAppState => {
+      if (
+        appState.match(/inactive|background/) &&
+        nextAppState === 'active' &&
+        lottieAnimationRef.current
+      ) {
+        lottieAnimationRef.current.play();
+      }
+      setAppState(nextAppState);
+    };
+
+    const appStateListener = AppState.addEventListener(
+      'change',
+      handleAppStateChange,
+    );
+
+    return () => {
+      appStateListener.remove();
+    };
+  }, [appState]);
+
+  const [isPlayerReady, setIsPlayerReady] = useState(false);
+
+  const tracktitle = 'Sports Stream';
+
+  useEffect(() => {
+    setup();
+  }, []);
+
+  async function getCurrentTrack() {
+    const currentTrack1 = await TrackPlayer.getCurrentTrack();
+    await TrackPlayer.updateMetadataForTrack(currentTrack1, {
+      title: tracktitle,
+      artwork: Artworkurl,
+    });
+    console.log(tracktitle);
+  }
+
+  const setup = async () => {
+    try {
       let isSetup = await setupPlayer();
+
+      const currentTrack = await TrackPlayer.getCurrentTrack();
+
+      if (currentTrack !== null) {
+        const trackData = await TrackPlayer.getTrack(currentTrack);
+
+        if (isSetup && (!trackData || trackData.url !== streamsurl.sports)) {
+          await TrackPlayer.reset();
+        } else {
+          getCurrentTrack();
+        }
+      } else {
+        // Handle the case when the current track is null
+        // Add a new track with the given title and URL
+        await addTracks('Sports Stream', streamsurl.sports, 'hls');
+      }
 
       const queue = await TrackPlayer.getQueue();
       if (isSetup && queue.length <= 0) {
-        await addTracks('stream 2', streamsurl.sports, 'hls');
+        await addTracks('Sports Stream', streamsurl.sports, 'hls');
+        getCurrentTrack();
       }
-
       setIsPlayerReady(isSetup);
+    } catch (error) {
+      console.log(error);
     }
-  }, [isPlayerReady]);
+  };
 
   if (!isPlayerReady) {
     return (
@@ -52,6 +116,7 @@ const Sportdetails = () => {
       TrackPlayer.pause();
     } else {
       TrackPlayer.play();
+      getCurrentTrack();
     }
   }
 
@@ -62,15 +127,18 @@ const Sportdetails = () => {
         <Text style={styles.showsubtitle}>Stream 2 </Text>
       </View>
 
-      <Image
-        source={require('../../../assets/musicbackground.png')}
+      <LottieView
+        loop
+        autoPlay
+        source={Assets.lottieFiles.planePath}
         style={styles.musicimage}
+        ref={lottieAnimationRef}
       />
 
       {playerState === State.Playing ? (
         <TouchableHighlight onPress={handlePlayPress} style={styles.playericon}>
           {/* Your stop button component */}
-          <Feather name="pause" style={styles.iconplay} />
+          <Feather name="pause" style={styles.iconpause} />
         </TouchableHighlight>
       ) : (
         <TouchableHighlight onPress={handlePlayPress} style={styles.playericon}>
@@ -171,6 +239,11 @@ const styles = StyleSheet.create({
   iconplay: {
     alignSelf: 'center',
     marginLeft: 5,
+    fontSize: 30.5,
+    color: '#fff',
+  },
+  iconpause: {
+    alignSelf: 'center',
     fontSize: 30.5,
     color: '#fff',
   },
