@@ -10,17 +10,15 @@
     "test": "jest"
   },
   "dependencies": {
-    "@expo/vector-icons": "^13.0.0",
     "@react-navigation/bottom-tabs": "^6.5.7",
     "@react-navigation/drawer": "^6.6.2",
     "@react-navigation/native": "^6.1.6",
     "@react-navigation/stack": "^6.3.16",
     "@types/react-native": "^0.71.6",
     "axios": "^1.4.0",
-    "expo": "^48.0.0",
     "hls-parser": "^0.10.6",
     "id3-parser": "^3.0.0",
-    "lottie-react-native": "^5.1.6",
+    "lottie-react-native": "^6.2.0",
     "m3u8-parser": "^6.2.0",
     "moment": "^2.29.4",
     "react": "18.2.0",

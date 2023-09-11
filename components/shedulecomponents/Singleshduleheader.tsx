@@ -1,6 +1,6 @@
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import React from 'react';
-import {SimpleLineIcons} from '@expo/vector-icons';
+import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 
 const Singleshduleheader = ({navigation}) => {
   return (

@@ -2,7 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>CFBundleDevelopmentRegion</key>
+
+    <key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
 	<string>Chapman Radio</string>
@@ -10,8 +11,6 @@
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
-	<key>CFBundleName</key>
-	<string>$(PRODUCT_NAME)</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
@@ -34,6 +33,30 @@
 		</dict>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
+	<string></string>
+		<key>UIAppFonts</key>
+	<array>
+	    <string>fonts/AntDesign.ttf</string>
+	    <string>fonts/Entypo.ttf</string>
+	    <string>fonts/EvilIcons.ttf</string>
+		<string>fonts/Feather.ttf</string>
+		<string>fonts/FontAwesome5_Brands.ttf</string>
+		<string>fonts/FontAwesome5_Regular.ttf</string>
+		<string>fonts/FontAwesome5_Solid.ttf</string>
+		<string>fonts/FontAwesome6_Brands.ttf</string>
+		<string>fonts/FontAwesome6_Regular.ttf</string>
+		<string>fonts/FontAwesome6_Solid.ttf</string>
+		<string>fonts/Ionicons.ttf</string>
+		<string>fonts/MaterialCommunityIcons.ttf</string>
+		<string>fonts/FontAwesome.ttf</string>
+        <string>fonts/MaterialIcons.ttf</string>
+        <string>fonts/Octicons.ttf</string>
+        <string>fonts/SimpleLineIcons.ttf</string>
+		<string>fonts/Foundation.ttf</string>
+		 <string>fonts/Fontisto.ttf</string>
+        <string>fonts/Zocial.ttf</string>
+	</array>
+	<key>UIApplicationShortcutWidget</key>
 	<string></string>
 	<key>UIBackgroundModes</key>
 	<array>

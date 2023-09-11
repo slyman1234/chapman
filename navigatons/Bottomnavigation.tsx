@@ -3,7 +3,10 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import HomeScreens from '../screens/HomeScreens';
 import Sheduling from '../screens/Sheduling';
 import Shows from '../screens/Shows';
-import {MaterialIcons, Octicons, Foundation} from '@expo/vector-icons';
+
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import Octicons from 'react-native-vector-icons/Octicons';
+import Foundation from 'react-native-vector-icons/Foundation';
 import colortype from '../constant/colors';
 const Tab = createBottomTabNavigator();
 

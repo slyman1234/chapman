@@ -1,16 +1,8 @@
 import {Platform, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {useFonts} from 'expo-font';
+
 import React from 'react';
 import colortype from '../../constant/colors';
 const Streamscomponent = ({navigation}) => {
-  const [fontsLoaded] = useFonts({
-    'SFProText-Regular': require('../../assets/fonts/SFProText-Regular.ttf'),
-  });
-
-  if (!fontsLoaded) {
-    return null;
-  }
-
   return (
     <View style={styles.streams}>
       <View accessible={true}>

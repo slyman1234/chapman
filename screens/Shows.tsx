@@ -8,7 +8,8 @@ import React, {useState, useRef} from 'react';
 import Headersrusable from '../components/reusablecomponents/Headersrusable';
 import colortype from '../constant/colors';
 import {ScrollView} from 'react-native-gesture-handler';
-import {AntDesign} from '@expo/vector-icons';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+
 import WebView from 'react-native-webview';
 import {injectedJavaScript, runBeforeFirst} from './Customcss';
 

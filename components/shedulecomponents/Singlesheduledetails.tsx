@@ -1,15 +1,7 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  FlatList,
-  ActivityIndicator,
-} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {useRoute} from '@react-navigation/native';
-import colortype from '../../constant/colors';
-import Renderdata from './Renderdata';
-import {getPlaylist, getsingleItems} from '../../api/Apis';
+
 import moment from 'moment';
 import {ScrollView} from 'react-native-gesture-handler';
 

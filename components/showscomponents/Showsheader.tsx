@@ -1,13 +1,13 @@
-import {StyleSheet, Text, TouchableOpacity, View,Linking} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, View, Linking} from 'react-native';
 import React from 'react';
-import {SimpleLineIcons, Feather} from '@expo/vector-icons';
+import Feather from 'react-native-vector-icons/Feather';
+import SimpleLineIcons from 'react-native-vector-icons/Feather';
 import {NavigationProp, ParamListBase} from '@react-navigation/native';
 
 type MyScreenProps = {
   navigation: NavigationProp<ParamListBase>;
 };
 const Showsheader = ({navigation}: MyScreenProps) => {
-
   const handlePhone = async () => {
     try {
       const url = 'tel:+17145166187';

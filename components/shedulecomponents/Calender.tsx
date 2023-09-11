@@ -1,6 +1,6 @@
 import {View, StyleSheet} from 'react-native';
 import CalendarStrip from 'react-native-calendar-strip';
-import {AntDesign} from '@expo/vector-icons';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 import moment from 'moment';
 import React, {useState} from 'react';
 

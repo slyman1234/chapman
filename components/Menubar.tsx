@@ -1,6 +1,6 @@
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import React from 'react';
-import {Entypo} from '@expo/vector-icons';
+import Entypo from 'react-native-vector-icons/Entypo';
 
 const Menubar = ({navigation}) => {
   return (

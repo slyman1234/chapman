@@ -9,7 +9,7 @@ import {
   AppState,
 } from 'react-native';
 import React, {useState, useEffect, useRef} from 'react';
-import {Feather} from '@expo/vector-icons';
+import Feather from 'react-native-vector-icons/Feather';
 import colortype from '../../../constant/colors';
 import streamsurl from '../../../constant/hls';
 import TrackPlayer, {
